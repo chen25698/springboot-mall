@@ -10,4 +10,6 @@ public interface productDao {
 
     //修改商品功能
     void updateProduct(Integer productId,ProductRequest productRequest);
+
+    void deleteProductById(Integer productId);
 }
