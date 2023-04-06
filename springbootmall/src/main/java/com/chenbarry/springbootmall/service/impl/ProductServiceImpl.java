@@ -1,5 +1,7 @@
 package com.chenbarry.springbootmall.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,12 @@ import com.chenbarry.springbootmall.service.productService;
 public class ProductServiceImpl implements productService {
     @Autowired
     private productDao productDao;
+    
+    @Override
+    public List<Product> getProducts() {
+        
+        return productDao.getProducts();
+    }
 
     //固定寫法，實作介面方法
     @Override

@@ -1,5 +1,7 @@
 package com.chenbarry.springbootmall.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,15 @@ public class productController {
     @Autowired
     private productService productService;
 
+    //查尋功能，若沒有查詢條件，依照RestFul API原則，無論結果，必須要回傳狀態碼200
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getProducts(){
+        List<Product> productList = productService.getProducts();
+
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+    
+    //查詢單個數據需要判斷是否有資料並回傳相對狀態碼
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
         Product product = productService.getProductById(productId);
@@ -64,6 +75,7 @@ public class productController {
         return ResponseEntity.status(HttpStatus.OK).body(updateProduct);
     }
 
+    //刪除商品
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Integer productId){
 
@@ -71,4 +83,6 @@ public class productController {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
 }
