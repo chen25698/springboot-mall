@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.chenbarry.springbootmall.constant.ProductCategory;
 import com.chenbarry.springbootmall.model.Product;
 
+//將資料庫中欄位資料傳入object
 public class ProductRowMapper implements RowMapper<Product> {
     public Product mapRow(ResultSet resultSet, int i) throws SQLException {
         Product product = new Product();

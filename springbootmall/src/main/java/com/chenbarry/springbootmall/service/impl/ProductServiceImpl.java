@@ -12,6 +12,7 @@ public class ProductServiceImpl implements productService {
     @Autowired
     private productDao productDao;
 
+    //固定寫法，實作介面方法
     @Override
     public Product getProductById(Integer productId) {
 
