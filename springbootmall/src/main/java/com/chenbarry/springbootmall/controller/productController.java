@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,9 @@ import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.productService;
 
 import jakarta.validation.Valid;
-
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+@Validated
 @RestController
 public class productController {
 
@@ -37,7 +40,11 @@ public class productController {
 
         //排序Sorting
         @RequestParam(defaultValue = "created_date") String orderBy,
-        @RequestParam(defaultValue = "DESC") String sort
+        @RequestParam(defaultValue = "DESC") String sort,
+
+        //分頁
+        @RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,    //取得多少筆資料
+        @RequestParam(defaultValue = "0") @Min(0) Integer offset    //跳過幾筆
 
         //required = false效果是可以不用選擇參數，常用
     ){
@@ -46,6 +53,8 @@ public class productController {
         productQueryParams.setSerch(serch);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
 
         List<Product> productList = productService.getProducts(productQueryParams);
 
