@@ -31,14 +31,21 @@ public class productController {
     //查尋功能，若沒有查詢條件，依照RestFul API原則，無論結果，必須要回傳狀態碼200
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+        //查詢條件Filtering
         @RequestParam(required = false) ProductCategory category,
-        @RequestParam(required = false) String serch
+        @RequestParam(required = false) String serch,
 
-        //required = false效果是可以不用category參數，常用
+        //排序Sorting
+        @RequestParam(defaultValue = "created_date") String orderBy,
+        @RequestParam(defaultValue = "DESC") String sort
+
+        //required = false效果是可以不用選擇參數，常用
     ){
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSerch(serch);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
 
         List<Product> productList = productService.getProducts(productQueryParams);
 
