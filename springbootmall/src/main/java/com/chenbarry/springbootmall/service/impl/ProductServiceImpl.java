@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.chenbarry.springbootmall.constant.ProductCategory;
+//import com.chenbarry.springbootmall.constant.ProductCategory;
 import com.chenbarry.springbootmall.dao.productDao;
+import com.chenbarry.springbootmall.dto.ProductQueryParams;
 import com.chenbarry.springbootmall.dto.ProductRequest;
 import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.productService;
@@ -17,9 +18,9 @@ public class ProductServiceImpl implements productService {
     private productDao productDao;
 
     @Override
-    public List<Product> getProducts(ProductCategory category,String serch) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         
-        return productDao.getProducts(category,serch);
+        return productDao.getProducts(productQueryParams);
     }
 
     //固定寫法，實作介面方法

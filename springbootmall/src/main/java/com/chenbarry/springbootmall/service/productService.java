@@ -2,13 +2,15 @@ package com.chenbarry.springbootmall.service;
 
 import java.util.List;
 
-import com.chenbarry.springbootmall.constant.ProductCategory;
+//import com.chenbarry.springbootmall.constant.ProductCategory;
+import com.chenbarry.springbootmall.dto.ProductQueryParams;
 import com.chenbarry.springbootmall.dto.ProductRequest;
 import com.chenbarry.springbootmall.model.Product;
 //建立object
 public interface productService {
 
-    List<Product> getProducts(ProductCategory category,String serch);
+    //查詢條件功能
+    List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById(Integer productId);
 

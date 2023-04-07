@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chenbarry.springbootmall.constant.ProductCategory;
+import com.chenbarry.springbootmall.dto.ProductQueryParams;
 import com.chenbarry.springbootmall.dto.ProductRequest;
 import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.productService;
@@ -32,8 +33,14 @@ public class productController {
     public ResponseEntity<List<Product>> getProducts(
         @RequestParam(required = false) ProductCategory category,
         @RequestParam(required = false) String serch
-    ){//required = false效果是可以不用category參數，常用
-        List<Product> productList = productService.getProducts(category,serch);
+
+        //required = false效果是可以不用category參數，常用
+    ){
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSerch(serch);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
