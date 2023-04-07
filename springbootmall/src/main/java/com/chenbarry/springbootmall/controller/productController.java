@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chenbarry.springbootmall.constant.ProductCategory;
 import com.chenbarry.springbootmall.dto.ProductRequest;
 import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.productService;
@@ -27,12 +29,15 @@ public class productController {
 
     //查尋功能，若沒有查詢條件，依照RestFul API原則，無論結果，必須要回傳狀態碼200
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+        @RequestParam(required = false) ProductCategory category,
+        @RequestParam(required = false) String serch
+    ){//required = false效果是可以不用category參數，常用
+        List<Product> productList = productService.getProducts(category,serch);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
-    
+
     //查詢單個數據需要判斷是否有資料並回傳相對狀態碼
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId) {
