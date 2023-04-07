@@ -20,6 +20,7 @@ import com.chenbarry.springbootmall.dto.ProductQueryParams;
 import com.chenbarry.springbootmall.dto.ProductRequest;
 import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.productService;
+import com.chenbarry.springbootmall.util.Page;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -33,7 +34,7 @@ public class productController {
 
     //查尋功能，若沒有查詢條件，依照RestFul API原則，無論結果，必須要回傳狀態碼200
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
         //查詢條件Filtering
         @RequestParam(required = false) ProductCategory category,
         @RequestParam(required = false) String serch,
@@ -56,9 +57,20 @@ public class productController {
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
 
+        //取得productList
         List<Product> productList = productService.getProducts(productQueryParams);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        //取得總筆數
+        Integer total = productService.countProduct(productQueryParams);
+
+        //分頁
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResalts(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     //查詢單個數據需要判斷是否有資料並回傳相對狀態碼

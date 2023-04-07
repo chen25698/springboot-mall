@@ -9,6 +9,8 @@ import com.chenbarry.springbootmall.model.Product;
 //建立object
 public interface productService {
 
+    Integer countProduct(ProductQueryParams productQueryParams);
+
     //查詢條件功能
     List<Product> getProducts(ProductQueryParams productQueryParams);
 

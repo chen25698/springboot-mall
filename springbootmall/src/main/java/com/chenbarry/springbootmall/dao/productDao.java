@@ -9,6 +9,8 @@ import com.chenbarry.springbootmall.model.Product;
 
 public interface productDao {
 
+    Integer countProduct(ProductQueryParams productQueryParams);
+
     List<Product> getProducts(ProductQueryParams productQueryParams);
 
     Product getProductById(Integer productId);

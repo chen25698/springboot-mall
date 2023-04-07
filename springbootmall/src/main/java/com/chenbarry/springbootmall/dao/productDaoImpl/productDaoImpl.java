@@ -24,7 +24,29 @@ public class productDaoImpl implements productDao {
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    
+
+    @Override
+    public Integer countProduct(ProductQueryParams productQueryParams) {
+        String sql = "SELECT count(*) FROM product WHERE 1=1 ";
+
+        Map<String, Object> map = new HashMap<>();
+         
+        //查詢條件
+         if(productQueryParams.getCategory() != null){
+            sql = sql + " AND category = :category";
+            map.put("category", productQueryParams.getCategory().name());
+         }
+
+         //模糊查詢不能將 % 加在查詢字串，必須放在map裡面
+         if(productQueryParams.getSerch() != null){
+            sql = sql + " AND product_name LIKE :serch";
+            map.put("serch", "%" + productQueryParams.getSerch() + "%");
+         }
+
+         Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+
+        return total;
+    }
 
     @Override
     public List<Product> getProducts(ProductQueryParams productQueryParams) {
@@ -33,16 +55,19 @@ public class productDaoImpl implements productDao {
           "WHERE 1=1";
 
          Map<String, Object> map = new HashMap<>();
+
         //查詢條件
          if(productQueryParams.getCategory() != null){
             sql = sql + " AND category = :category";
             map.put("category", productQueryParams.getCategory().name());
          }
+
          //模糊查詢不能將 % 加在查詢字串，必須放在map裡面
          if(productQueryParams.getSerch() != null){
             sql = sql + " AND product_name LIKE :serch";
             map.put("serch", "%" + productQueryParams.getSerch() + "%");
          }
+
          //排序
          sql = sql + " ORDER BY " + productQueryParams.getOrderBy() + " " + productQueryParams.getSort();
          //分頁
