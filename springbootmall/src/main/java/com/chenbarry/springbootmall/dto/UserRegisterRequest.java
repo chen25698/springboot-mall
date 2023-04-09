@@ -1,10 +1,12 @@
 package com.chenbarry.springbootmall.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserRegisterRequest {
 
     @NotBlank
+    @Email
     String email;
 
     @NotBlank
