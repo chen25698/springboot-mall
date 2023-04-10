@@ -17,6 +17,7 @@ import com.chenbarry.springbootmall.dto.UserRegisterRequest;
 import com.chenbarry.springbootmall.model.User;
 import com.chenbarry.springbootmall.rowmapper.UserRowMapper;
 
+//Dao只做資料庫溝通，不能添加判斷邏輯
 
 @Component
 public class UserDaoImpl implements UserDao{
