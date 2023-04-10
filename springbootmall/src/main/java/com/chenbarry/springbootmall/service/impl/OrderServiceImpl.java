@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chenbarry.springbootmall.dao.OrderDao;
 import com.chenbarry.springbootmall.dto.BuyItem;
 import com.chenbarry.springbootmall.dto.CreateOrderRequest;
+import com.chenbarry.springbootmall.model.Order;
 import com.chenbarry.springbootmall.model.OrderItem;
 import com.chenbarry.springbootmall.model.Product;
 import com.chenbarry.springbootmall.service.OrderService;
@@ -23,6 +24,17 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private productDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+        
+        return order;
+    }
 
     @Transactional  //噴出exception後，可以恢復已經做過的改動，特別是2個Table以上的改動
     @Override
