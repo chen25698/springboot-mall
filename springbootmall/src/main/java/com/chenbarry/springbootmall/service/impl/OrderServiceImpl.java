@@ -15,6 +15,7 @@ import com.chenbarry.springbootmall.dao.OrderDao;
 import com.chenbarry.springbootmall.dao.UserDao;
 import com.chenbarry.springbootmall.dto.BuyItem;
 import com.chenbarry.springbootmall.dto.CreateOrderRequest;
+import com.chenbarry.springbootmall.dto.OrderQueryParams;
 import com.chenbarry.springbootmall.model.Order;
 import com.chenbarry.springbootmall.model.OrderItem;
 import com.chenbarry.springbootmall.model.Product;
@@ -35,6 +36,26 @@ private final static Logger log = LoggerFactory.getLogger(OrderServiceImpl.class
 
     @Autowired
     private UserDao userDao;
+
+    
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        List<Order> orderList = orderDao.getOrders(orderQueryParams);
+
+        for(Order order : orderList){
+            List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(order.getOrderId());
+            
+            order.setOrderItemList(orderItemList);
+        }
+        return orderList;
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
